@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+		crossorigin="anonymous"></script>
+	<meta charset="ISO-8859-1">
+	<title>Play Music</title>
+
+
+
+	<style>
+		body {
+			background-color: #1e1e1e;
+			color: #fff;
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			overflow: hidden;
+		}
+
+		.content {
+			flex: 1;
+			display: flex;
+			width: 100vw;
+			height: 100vh;
+		}
+
+		.container {
+			display: flex;
+			padding: 0 !important;
+			width: 100vw;
+			height: 100vh;
+		}
+
+		.left {
+			flex: 1;
+			width: 22%;
+			padding: 20px;
+		}
+
+		.vertical-line {
+			width: 0.25%;
+			background-color: rgb(255, 255, 255);
+		}
+
+		.right {
+			width: 77%;
+			flex: 1;
+		}
+
+		.songs {
+			width: 100vw;
+			height: 80%;
+			top: 0%;
+		}
+
+		.bottom-player {
+			padding: 5px;
+			align-items: self-end;
+			align-content: flex-end;
+			justify-content: end;
+			position: sticky;
+		}
+
+		.msp {
+			width: 100%;
+			bottom: 0px;
+		}
+
+		.links a {
+			text-decoration: none;
+			color: white;
+		}
+
+		.table-hover tbody tr:hover {
+			background-color: #ffcccb;
+			/* Change this color to your desired hover color */
+		}
+	</style>
+</head>
+
+<body>
+	<!--  start of navbar-->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky top-0">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">Fragger Player</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="#">Home</a>
+					</li>
+
+				</ul>
+				<form class="d-flex" method="get" action="/fragger/search/{author}">
+					<input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="author">
+					<button class="btn btn-outline-success" type="submit">Search</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+
+	<!-- body section -->
+	<div class="container" style="padding: 0;margin: 0;">
+		<div class="content">
+			<div class="left text-center" style="display: block;">
+				<img src="/images/download.jpg" style="width: 70%;
+				height: auto;border: 2px solid goldenrod; border-radius: 50%;">
+
+				<h3 class="pt-4 mt-2">JASPAL SINGH</h3>
+
+				<div class="text-center pt-1 mt-3" style="width: 100%;height: auto;border-radius: 30%;">
+					<button
+						style="background-color: red;color: antiquewhite;width: 60%;border-radius: 20%;">Subscribed</button>
+				</div>
+				<!-- Content for the left section goes here -->
+			</div>
+
+
+
+			<div class="vertical-line"></div>
+			<div class="right">
+				<div class="songs" style="overflow-y: scroll;">
+					<table class="table table-hover" style="color: white;cursor: pointer; overflow: scroll;">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col" style="width: 30%;">Song</th>
+								<th scope="col">Artist</th>
+								<th scope="col">Name</th>
+
+							</tr>
+						</thead>
+						<tbody class="links" style="overflow: scroll;">
+							<tr th:each="song, songIndex : ${song}">
+								<th th:text="${songIndex.index + 1}" scope="row"></th>
+								<td style="width: 40%;">
+									<a class="play-song" th:href="${song.url}" th:text="${song.name}"
+										data-song-url="${song.url}" style="align-items: start;"></a>
+								</td>
+								<td>
+									<img th:src="${song.imageUrl}" style="width: 35px;height: auto;border-radius: 50%;">
+								</td>
+								<td>
+									<h5 th:text="${song.artist}"></h5>
+								</td>
+
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="bottom-player">
+					<div class="music-player">
+						<!-- Music player content goes here -->
+						<audio id="music-player" class="msp" controls>
+							<source src="" id="music-source" type="audio/mpeg" style="width: 100%;">
+							Your browser does not support the audio element.
+						</audio>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const musicPlayer = document.getElementById('music-player');
+			const musicSource = document.getElementById('music-source');
+
+			const songLinks = document.querySelectorAll('.play-song');
+
+			songLinks.forEach(link => {
+				link.addEventListener('click', function (e) {
+					e.preventDefault();
+					const songURL = this.getAttribute('href');
+					musicSource.src = songURL;
+					musicPlayer.load();
+					musicPlayer.play();
+				});
+			});
+		});
+
+	</script>
+
+
+</body>
+
+</html>
