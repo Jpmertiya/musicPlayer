@@ -70,6 +70,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>Web-music-app</finalName>
 	</build>
 
 </project>

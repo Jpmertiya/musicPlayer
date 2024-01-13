@@ -13,11 +13,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Resume.builder.API.musicApi;
 import com.Resume.builder.Entity.song;
-
+/**
+ * This is Controller class that map url with methods
+ */
 @Controller
 @RequestMapping("/fragger")
 public class homeController {
 
+	/**
+	 * @author Jpmertiya
+	 * @param no param
+	 * @return html page with name "index"
+	 */
 	@GetMapping("/home")
 	public String index(Model model) {
 		List<song> songs = fetchSong("eminem");
@@ -27,6 +34,11 @@ public class homeController {
 		return "index";
 	}
 
+	/**
+	 * This method return list of songs.
+	 * @param name of song/writer/singer
+	 * @return list of songs
+	 */
 	@GetMapping("/search/{author}")
 	public String author(@RequestParam("author") String name, Model model) {
 		List<song> songs = fetchSong(name);

@@ -145,7 +145,7 @@
 						</thead>
 						<tbody class="links" style="overflow: scroll;">
 							<tr th:each="song, songIndex : ${song}">
-								<th th:text="${songIndex.index + 1}" scope="row"></th>
+								<th id="play" th:text="${songIndex.index + 1}" scope="row"></th>
 								<td style="width: 40%;">
 									<a class="play-song" th:href="${song.url}" th:text="${song.name}"
 										data-song-url="${song.url}" style="align-items: start;"></a>

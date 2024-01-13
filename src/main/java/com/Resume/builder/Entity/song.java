@@ -1,7 +1,9 @@
 package com.Resume.builder.Entity;
 
 import org.springframework.stereotype.Component;
-
+/**
+ * This call is used to map songs
+ */
 @Component
 public class song {
 	private String name;
